@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+/* PiGA "mint premium" tokens. See .claude/skills/piga-design-system.
+   Brand values sampled from the official logo PNG in checklist v3.8 (8.8: "refer to the colours of the PiGA logo"). */
+@theme {
+  --color-mint-25: #f7fcf9;
+  --color-mint-50: #effaf4;
+  --color-mint-100: #ddf4e7;
+  --color-mint-200: #bde9d2;
+  --color-mint-300: #8fd9b4;
+  --color-mint-400: #5cc493;
+  --color-mint-500: #34a874;
+
+  --color-forest-600: #1f6b47;
+  --color-forest-700: #155438;
+  --color-forest-800: #0f3f2b;
+  --color-forest-900: #0a2e1f;
+  --color-forest-950: #061d13;
+
+  --color-leaf: #68a030;       /* logo wordmark green */
+  --color-crown: #a8e028;      /* logo crown highlight */
+  --color-gold: #ff9018;       /* logo fruit orange, the spark */
+  --color-gold-soft: #ffe6c7;
+
+  --color-ink: #0e1f17;
+  --color-muted: #5b6f64;
+  --color-line: #dcebe2;
+  --color-paper: #ffffff;
+
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 1.75rem;
+  --radius-pill: 999px;
+
+  --shadow-soft: 0 1px 2px rgb(10 46 31 / 0.04), 0 8px 24px -8px rgb(10 46 31 / 0.08);
+  --shadow-lift: 0 2px 4px rgb(10 46 31 / 0.05), 0 24px 48px -16px rgb(10 46 31 / 0.18);
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-mint-25 font-sans text-ink antialiased; }
+  h1, h2, h3, h4 { @apply font-display text-forest-900; letter-spacing: -0.035em; text-wrap: balance; }
+  p { text-wrap: pretty; }
+  ::selection { @apply bg-mint-200 text-forest-900; }
+  :focus-visible { outline: 2px solid var(--color-forest-600); outline-offset: 2px; }
+}
+
+@utility container-site {
+  width: min(1200px, calc(100% - 2.5rem));
+  margin-inline: auto;
+}
+
+/* Photo-free surfaces (design system §4) */
+@utility bg-mint-field {
+  background:
+    radial-gradient(110% 80% at 85% 0%, var(--color-mint-200) 0%, transparent 60%),
+    radial-gradient(70% 60% at 0% 100%, var(--color-mint-100) 0%, transparent 70%),
+    var(--color-mint-50);
+}
+
+@utility bg-forest-field {
+  background:
+    radial-gradient(90% 70% at 100% 0%, rgb(52 168 116 / 0.22) 0%, transparent 60%),
+    var(--color-forest-900);
+}
+
+/* Scroll reveal: elements start visible without JS; the Reveal component opts in. */
+.reveal { opacity: 0; transform: translateY(12px); transition: opacity 0.7s var(--ease-out-soft), transform 0.7s var(--ease-out-soft); }
+.reveal.is-visible { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
