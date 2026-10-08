@@ -1,4 +1,6 @@
-import { getEvents, getHomePage, getMembershipPage, getPartners, getPeopleByIds, getSiteSettings, getVarieties } from "@/lib/content";
+import Image from "next/image";
+import { Check, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { getAboutPage, getEvents, getHomePage, getMembershipPage, getPartners, getPeopleByIds, getSiteSettings, getVarieties } from "@/lib/content";
 import { Lattice } from "@/components/brand/Lattice";
 import { BrandMark } from "@/components/brand/BrandMark";
 import { Logo } from "@/components/brand/Logo";
@@ -11,12 +13,19 @@ import { PartnerWall } from "@/components/ui/PartnerWall";
 import { Steps } from "@/components/ui/Steps";
 
 export default async function Home() {
-  const [s, home, membership, varieties, partners, events] = await Promise.all([
-    getSiteSettings(), getHomePage(), getMembershipPage(), getVarieties(), getPartners(), getEvents(),
+  const [s, home, about, membership, varieties, partners, events] = await Promise.all([
+    getSiteSettings(), getHomePage(), getAboutPage(), getMembershipPage(), getVarieties(), getPartners(), getEvents(),
   ]);
   const people = await getPeopleByIds(home.featuredPeopleIds);
   const mainVarieties = varieties.filter((v) => !v.isMinor);
   const launch = events.find((e) => e.id === "piga-launch");
+  const logoFor = (partnerId?: string) => partners.find((p) => p.id === partnerId)?.logo;
+  const contacts = [
+    { icon: MapPin, label: "Office", value: s.address.join(", "), href: undefined },
+    { icon: Phone, label: "Telephone", value: s.phoneDisplay, href: `tel:${s.phoneE164}` },
+    ...(s.whatsappE164 ? [{ icon: MessageCircle, label: "WhatsApp", value: s.phoneDisplay, href: `https://wa.me/${s.whatsappE164}` }] : []),
+    { icon: Mail, label: "Email", value: s.email, href: `mailto:${s.email}` },
+  ];
 
   return (
     <>
@@ -103,6 +112,40 @@ export default async function Home() {
         </div>
       </Section>
 
+      {/* Why PiGA */}
+      <Section className="bg-paper">
+        <div className="grid items-center gap-14 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
+          <div>
+            <Eyebrow>Why PiGA</Eyebrow>
+            <h2 className="mt-4 text-4xl font-bold leading-[1.02] sm:text-5xl lg:text-6xl">
+              {home.gap.title} <span className="text-forest-600">{home.gap.highlight}</span>
+            </h2>
+            <div className="mt-6 space-y-5 text-lg leading-8 text-muted">
+              {about.history.map((p) => <p key={p.slice(0, 24)}>{p}</p>)}
+            </div>
+          </div>
+          <Reveal>
+            <ul className="overflow-hidden rounded-card border border-line bg-mint-25 shadow-soft">
+              {home.gap.supportedSectors.map((sector) => (
+                <li key={sector} className="flex items-center justify-between gap-4 border-b border-line px-6 py-5 sm:px-8">
+                  <span className="font-display text-xl font-semibold tracking-tight text-forest-900 sm:text-2xl">{sector}</span>
+                  <span className="inline-flex items-center gap-2 rounded-pill bg-mint-100 px-3 py-1 text-sm font-medium text-forest-700">
+                    <Check aria-hidden size={15} /> Already supported
+                  </span>
+                </li>
+              ))}
+              <li className="relative overflow-hidden bg-forest-900 px-6 py-7 sm:px-8">
+                <Lattice tone="light" className="absolute inset-0" />
+                <div className="relative flex items-center justify-between gap-4">
+                  <span className="font-display text-2xl font-bold tracking-tight text-mint-50 sm:text-3xl">Pineapple</span>
+                  <span className="rounded-pill bg-gold px-3.5 py-1.5 text-sm font-semibold text-forest-950">PiGA, est. {about.establishedYear}</span>
+                </div>
+              </li>
+            </ul>
+          </Reveal>
+        </div>
+      </Section>
+
       {/* Objectives */}
       <section className="relative overflow-hidden bg-forest-field py-24 sm:py-32">
         <Lattice tone="light" className="absolute inset-0 [mask-image:linear-gradient(to_bottom,black,transparent)]" />
@@ -159,6 +202,51 @@ export default async function Home() {
         </div>
       </Section>
 
+      {/* Sister associations */}
+      <Section className="bg-paper">
+        <SectionHeading eyebrow="A family of associations" title={<>{home.family.title} <span className="text-forest-600">{home.family.highlight}</span></>} lead={home.family.lead} />
+        <div className="mt-12 grid gap-4 md:grid-cols-3">
+          {home.family.associations.map((a, i) => {
+            const logo = a.isSelf ? s.logos?.compact : logoFor(a.partnerId);
+            return (
+              <Reveal key={a.id} delay={i * 60} className="h-full">
+                <article
+                  className={`relative flex h-full flex-col overflow-hidden rounded-card p-7 transition duration-300 ease-out-soft hover:-translate-y-0.5 ${
+                    a.isSelf ? "bg-forest-900 shadow-lift" : "border border-line bg-mint-25 shadow-soft hover:shadow-lift"
+                  }`}
+                >
+                  {a.isSelf && <Lattice tone="light" className="absolute inset-0" />}
+                  <div className="relative flex items-start justify-between gap-4">
+                    <div className={`flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl p-2.5 ${a.isSelf ? "bg-white/95" : "bg-paper border border-line"}`}>
+                      {logo ? (
+                        <Image src={logo.src} alt="" width={logo.width ?? 200} height={logo.height ?? 200} className="max-h-full w-auto object-contain" />
+                      ) : (
+                        <span className="font-display text-lg font-bold text-forest-700">{a.crop.slice(0, 2)}</span>
+                      )}
+                    </div>
+                    {a.since && (
+                      <span className={`rounded-pill px-3 py-1 text-xs font-semibold ${a.isSelf ? "bg-gold text-forest-950" : "bg-mint-100 text-forest-700"}`}>
+                        Since {a.since}
+                      </span>
+                    )}
+                  </div>
+                  <p className={`relative mt-8 text-xs font-semibold uppercase tracking-[.16em] ${a.isSelf ? "text-mint-200" : "text-forest-600"}`}>{a.crop}</p>
+                  <h3 className={`relative mt-2 text-2xl font-semibold leading-tight ${a.isSelf ? "text-mint-50" : ""}`}>{a.name}</h3>
+                  <ul className={`relative mt-6 space-y-2.5 border-t pt-5 text-[15px] ${a.isSelf ? "border-white/10 text-mint-100/75" : "border-line text-muted"}`}>
+                    {a.facts.map((f) => (
+                      <li key={f} className="flex items-start gap-2.5">
+                        <Check aria-hidden size={16} className={`mt-0.5 shrink-0 ${a.isSelf ? "text-mint-300" : "text-forest-600"}`} />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              </Reveal>
+            );
+          })}
+        </div>
+      </Section>
+
       {/* Partners */}
       {partners.length > 0 && (
         <Section className="bg-mint-25">
@@ -166,6 +254,51 @@ export default async function Home() {
           <div className="mt-12"><PartnerWall partners={partners} /></div>
         </Section>
       )}
+
+      {/* Where we work */}
+      <Section className="relative overflow-hidden bg-paper">
+        <div className="grid gap-14 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
+          <div className="relative">
+            <p aria-hidden className="pointer-events-none absolute -left-2 -top-16 select-none font-display text-[7rem] font-bold leading-none tracking-tighter text-mint-50 sm:text-[10rem]">
+              Ghana
+            </p>
+            <div className="relative">
+              <Eyebrow>Where we work</Eyebrow>
+              <h2 className="mt-4 text-4xl font-bold leading-[1.02] sm:text-5xl lg:text-6xl">
+                {home.reach.title} <span className="text-forest-600">{home.reach.highlight}</span>
+              </h2>
+              <p className="mt-6 max-w-xl text-lg leading-8 text-muted">{about.coverage}</p>
+            </div>
+          </div>
+          <ul className="grid gap-4 sm:grid-cols-2">
+            {contacts.map(({ icon: Icon, label, value, href }, i) => {
+              const body = (
+                <>
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-mint-100 text-forest-700">
+                    <Icon aria-hidden size={19} />
+                  </span>
+                  <span className="mt-6 block text-xs font-semibold uppercase tracking-[.16em] text-forest-600">{label}</span>
+                  <span className="mt-1.5 block break-words font-medium leading-snug text-forest-900">{value}</span>
+                </>
+              );
+              const card = "block h-full rounded-card border border-line bg-mint-25 p-6 transition duration-300 ease-out-soft";
+              return (
+                <li key={label}>
+                  <Reveal delay={i * 60} className="h-full">
+                    {href ? (
+                      <a href={href} className={`${card} hover:-translate-y-0.5 hover:bg-paper hover:shadow-lift`} {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+                        {body}
+                      </a>
+                    ) : (
+                      <div className={card}>{body}</div>
+                    )}
+                  </Reveal>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </Section>
 
       {/* CTA band */}
       <section className="px-4 pb-24 sm:pb-32">

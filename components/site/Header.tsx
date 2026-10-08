@@ -9,6 +9,7 @@ import { Logo } from "@/components/brand/Logo";
 import { buttonClass } from "@/components/ui/Button";
 
 export const navItems = [
+  { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Leadership", href: "/leadership" },
   { label: "Membership", href: "/membership" },
@@ -30,7 +31,12 @@ export function Header({ logos, join, banner }: { logos?: BrandLogos; join: Site
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => setOpen(false), [pathname]);
+  // Close the drawer on navigation (state adjusted during render, not in an effect).
+  const [lastPath, setLastPath] = useState(pathname);
+  if (pathname !== lastPath) {
+    setLastPath(pathname);
+    setOpen(false);
+  }
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -42,7 +48,7 @@ export function Header({ logos, join, banner }: { logos?: BrandLogos; join: Site
     };
   }, [open]);
 
-  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`));
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
@@ -60,13 +66,13 @@ export function Header({ logos, join, banner }: { logos?: BrandLogos; join: Site
             <Logo logos={logos} />
           </Link>
 
-          <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">
+          <nav aria-label="Main" className="hidden items-center gap-0.5 lg:flex xl:gap-1">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
-                className={`rounded-pill px-3.5 py-2 text-[14.5px] font-medium transition-colors ${
+                className={`rounded-pill px-3 py-2 text-[14px] font-medium transition-colors xl:px-3.5 xl:text-[14.5px] ${
                   isActive(item.href) ? "bg-mint-100 text-forest-900" : "text-forest-800/80 hover:bg-mint-50 hover:text-forest-900"
                 }`}
               >
@@ -111,7 +117,7 @@ export function Header({ logos, join, banner }: { logos?: BrandLogos; join: Site
         </div>
         <nav aria-label="Mobile" className="container-site mt-6 flex flex-1 flex-col overflow-y-auto">
           {navItems.map((item) => (
-            <Link key={item.href} href={item.href} className="border-b border-white/10 py-4 font-display text-3xl font-semibold tracking-tight text-mint-50">
+            <Link key={item.href} href={item.href} aria-current={isActive(item.href) ? "page" : undefined} className="border-b border-white/10 py-4 font-display text-3xl font-semibold tracking-tight text-mint-50">
               {item.label}
             </Link>
           ))}

@@ -19,7 +19,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const s = await getSiteSettings();
   return (
     <html lang="en-GH" className={`${bricolage.variable} ${inter.variable}`}>
-      <body>
+      {/* Browser extensions (e.g. ColorZilla's cz-shortcut-listen) add attributes to <body>
+          before hydration. This ignores attribute mismatches on <body> only, not its children. */}
+      <body suppressHydrationWarning>
         <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-pill focus:bg-forest-900 focus:px-4 focus:py-2 focus:text-mint-50">
           Skip to content
         </a>

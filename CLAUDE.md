@@ -14,7 +14,9 @@ Marketing site for the Pineapple Growers Association, Ghana. Stack: Next 16 App 
 
 ## Conventions
 - Shared chrome lives in `components/site/` (Header, which includes the mobile menu, and Footer). Pages never define their own header.
-- Content is read through `lib/content/*` and never hard-coded in JSX. Today it reads from `content/*.ts` seeds (`site`, `pages`, `team`, `membership`, `knowledge`, `partners`, `catalogue`); later from WordPress.
+- Content is read through `lib/content/*` and never hard-coded in JSX. It reads `content/*.ts` seeds (`site`, `pages`, `team`, `membership`, `knowledge`, `partners`, `catalogue`) unless `WORDPRESS_GRAPHQL_URL` is set, then WordPress via `lib/wp/*` (client, queries, mappers) with a per-getter seed fallback. WordPress-side setup: `docs/wordpress/setup.md` and `docs/wordpress/mu-revalidate.php`. Routes: `app/api/revalidate`, `app/api/preview`, `app/api/preview/exit`.
+- Social links (1.7) live in `siteSettings.socials`; an empty `url` is a placeholder shown only in dev or with `CONTENT_PREVIEW=1`.
+- Run `npm run lint` (ESLint flat config) and `npm run typecheck` before handing over.
 - Next 16 specifics: `next lint` is gone (use `eslint` directly), `middleware.ts` is now `proxy.ts`, and `revalidateTag(tag, 'max')` takes a cache profile as its second argument.
 - No stock imagery in production. Placeholders must be design-system surfaces, not Unsplash.
 - Visitor-facing text never mentions the CMS, placeholders or "coming soon" lorem.

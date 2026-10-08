@@ -34,6 +34,21 @@ export const homePage: HomePage = {
     { title: "A growing sector", body: "Grow what pineapple contributes to Ghana’s agricultural economy, season after season." },
   ],
   featuredPeopleIds: ["nimo-ahinkorah", "nana-yaw-baffour-frimpong", "naana-asiamah-adjei", "david-carpi", "nicholas-charway", "artem-bezukh"],
+  // 1.3: "other tree-crop sectors such as cashew, shea and rubber are already supported".
+  gap: { title: "Other tree crops had an association.", highlight: "Pineapple did not.", supportedSectors: ["Cashew", "Shea", "Rubber"] },
+  // 1.5 para 3 and the Appendix A descriptions of OGA and MaGA.
+  family: {
+    title: "One family of associations.",
+    highlight: "Three fruits, one model.",
+    lead: "The Association works beside the Orange Growers Association and the Mango Growers Association, part of a wider effort to give Ghana’s fruit growers the representation other tree-crop sectors have had for years.",
+    associations: [
+      { id: "oga", name: "Orange Growers Association", crop: "Citrus", since: "2020", partnerId: "oga", facts: ["273 to more than 3,000 members", "12 districts", "82 rural communities"] },
+      { id: "maga", name: "Mango Growers Association", crop: "Mango", partnerId: "maga", facts: ["Built on the same model", "Led by the same people"] },
+      { id: "piga", name: "Pineapple Growers Association", crop: "Pineapple", since: "2026", isSelf: true, facts: ["National coverage", "Free membership"] },
+    ],
+  },
+  // 1.6, 1.9
+  reach: { title: "National in reach.", highlight: "Based in Akyem Oda." },
 };
 
 export const aboutPage: AboutPage = {

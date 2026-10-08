@@ -13,9 +13,9 @@ Field names are snake_case in ACF and camelCase in TS. The `Ref` column points t
 | phone_display* / phone_e164* | text | 1.6 | 059 159 8095 / +233591598095 |
 | whatsapp_e164 | text | 9.4 | |
 | email* | email | 1.6, 9.2, 9.3 | |
-| socials | repeater {network, url} | 1.7 | Empty at launch, so the UI hides it |
+| socials | repeater {network: facebook\|instagram\|linkedin, url} | 1.7 | Rows seeded with empty `url`. Production hides rows without a URL; dev/preview shows them as placeholders |
 | logo_full / logo_full_light / logo_compact / logo_mark | image | 1.2 | Maps to `siteSettings.logos` |
-| primary_ctas | fixed: Join the Association, Become a Partner, Contact Us | 9.7 | Labels are editable, the set is not |
+| cta_join_label / cta_partner_label / cta_contact_label | text | 9.7 | Labels are editable; the set and targets are fixed in code |
 | launch_banner | group {enabled, text, link} | 7.2 | e.g. "PiGA launches November 2026" |
 
 ## Page: Home (ACF on the page with slug `home`)
@@ -28,6 +28,9 @@ Field names are snake_case in ACF and camelCase in TS. The `Ref` column points t
 | objectives | repeater {title, body}, exactly 6 | 1.4 |
 | featured_varieties | relationship → variety | 5.1 |
 | featured_people | relationship → person | 2.1 |
+| gap_title, gap_highlight, gap_supported_sectors (repeater {name}) | text | 1.3 |
+| family_title, family_highlight, family_lead, family_associations (repeater {slug, name, crop, since, facts {text}, partner → partner, is_self}) | mixed | 1.5, App. A |
+| reach_title, reach_highlight | text | 1.6, 1.9 |
 
 ## Page: About
 `established_year` (number, 2026) · `history` (wysiwyg, 1.3) · `coverage` (textarea, 1.9) · `structure_intro` (wysiwyg, 2.4).
@@ -49,7 +52,7 @@ Vision, mission and objectives are read from Home. Don't duplicate them.
 | Field | Type | Ref |
 |---|---|---|
 | title (post title)* | name | 2.1 |
-| role* | text | 2.1 |
+| board_role / management_role / regional_role | text | 2.1 | one per group the person sits in (Nana Yaw is Board member + President) |
 | groups* | taxonomy `person_group` (multi): board, management, regional | 2.1, 2.4 |
 | region | select: Eastern, Central, Ashanti, plus others added later | 2.5 |
 | headshot | image | 2.2 |
@@ -72,7 +75,7 @@ Vision, mission and objectives are read from Home. Don't duplicate them.
 `title`* · `code` (SL, MD2, SC) · `summary`* (5.1 text) · `attributes` (repeater {label}, e.g. "White flesh") · `is_minor` (bool, true for Queen Victoria) · `image` (optional, 8.x) · `menu_order`.
 
 ## CPT `event`
-`title`* · `start_date` (date, nullable) · **`date_tbc`** (bool) · `venue` (nullable) · `venue_tbc` (bool) · `summary` · `body`. The launch event is seeded with month = November 2026 and `date_tbc` set.
+`title`* · `month_label` · `start_date` (date, nullable) · **`date_tbc`** (bool) · `venue` (nullable) · `venue_tbc` (bool) · `summary` · `body`. The launch event is seeded with month = November 2026 and `date_tbc` set.
 
 ## Posts (news)
 Native WordPress posts, with categories News and Announcements. None at launch (7.1). The UI shows an empty state.
@@ -88,3 +91,6 @@ Privacy, Cookies, Terms as standard pages with body in Gutenberg, adapted from O
 
 ## Not modelled, on purpose
 Bios (2.3), partnership offer, benefits, process and stories (6.4–6.7), past events gallery (7.3), office hours (9.6).
+
+## GraphQL names
+See `docs/wordpress/setup.md`. Queries live in `lib/wp/queries.ts`, mappers in `lib/wp/mappers.ts`.

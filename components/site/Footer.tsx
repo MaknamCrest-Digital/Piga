@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getLegalPages, getSiteSettings } from "@/lib/content";
 import { Logo } from "@/components/brand/Logo";
 import { Lattice } from "@/components/brand/Lattice";
+import { SocialLinks } from "./SocialLinks";
 
 export async function Footer() {
   const [s, legal] = await Promise.all([getSiteSettings(), getLegalPages()]);
@@ -19,13 +20,7 @@ export async function Footer() {
         <div>
           <Logo logos={s.logos} variant="full" tone="light" />
           <p className="mt-6 max-w-xs text-sm leading-7">Bringing Ghana’s pineapple growers together. {s.statusLine}</p>
-          {s.socials.length > 0 && (
-            <ul className="mt-6 flex gap-4 text-sm">
-              {s.socials.map((so) => (
-                <li key={so.url}><a href={so.url} className="hover:text-mint-50" rel="noopener">{so.network}</a></li>
-              ))}
-            </ul>
-          )}
+          <SocialLinks socials={s.socials} />
         </div>
         {columns.map((c) => (
           <div key={c.title}>

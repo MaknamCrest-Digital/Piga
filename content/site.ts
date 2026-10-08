@@ -10,7 +10,13 @@ export const siteSettings: SiteSettings = {
   phoneE164: "+233591598095",
   whatsappE164: "233591598095",
   email: "info@pineapplegrowersgh.org",
-  socials: [], // 1.7 outstanding
+  // 1.7 outstanding. Paste each profile URL once the client supplies it; an empty
+  // url keeps the icon off the live site (it shows as a placeholder in dev/preview).
+  socials: [
+    { network: "facebook", url: "" },
+    { network: "instagram", url: "" },
+    { network: "linkedin", url: "" },
+  ],
   // 1.2: extracted from the client checklist (v3.8). Only the full lockup is in the
   // document; light, compact and mark are cut from it pixel for pixel. Originals: assets/source/brand/.
   logos: {

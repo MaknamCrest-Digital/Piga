@@ -17,9 +17,15 @@ export function PersonCard({ person, group }: { person: Person; group: PersonGro
   const role = person.roles[group] ?? Object.values(person.roles)[0];
   return (
     <article className="group rounded-card border border-line bg-paper p-4 shadow-soft transition duration-300 ease-out-soft hover:-translate-y-0.5 hover:shadow-lift">
-      <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-mint-100">
+      <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-mint-100">
         {person.headshot ? (
-          <Image src={person.headshot.src} alt={person.headshot.alt} fill sizes="(min-width:1024px) 280px, 50vw" className="object-cover" />
+          <Image
+            src={person.headshot.src}
+            alt={person.headshot.alt}
+            fill
+            sizes="(min-width:1280px) 280px, (min-width:1024px) 33vw, 50vw"
+            className="object-cover object-[50%_20%] transition duration-500 ease-out-soft group-hover:scale-[1.03]"
+          />
         ) : (
           <div aria-hidden className="flex h-full items-center justify-center bg-mint-field">
             <span className="font-display text-5xl font-bold tracking-tight text-forest-700/80">{initials(person.name)}</span>

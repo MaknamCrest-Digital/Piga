@@ -40,7 +40,7 @@ Legend: ✅ matches · ⚠️ present but wrong or incomplete · ❌ missing · 
 | Ref | Checklist | Repo | State |
 |---|---|---|---|
 | 2.1 | 6 board, 5 management, 3 regional (14 people, Nana Yaw Baffour Frimpong in two groups) | Homepage shows 6 people. The board, the regional coordinators and the leadership page are all missing. | ⚠️ |
-| 2.2 | Headshots exist on the OGA site. Artem Bezukh still needs one. | Icon placeholders | ⏸ need a fallback for any missing headshot |
+| 2.2 | Headshots exist on the OGA site. Artem Bezukh still needs one. | 12 of 13 supplied ("Leadership images.pdf", 8 Oct 2026) in `public/people/`. Artem Bezukh uses the initials fallback. | ⚠️ Artem Bezukh outstanding |
 | 2.3 | Biographies | — | 🚫 dropped. Don't build bio fields or bio UI. |
 | 2.4 | Three tiers plus the "same board as OGA" paragraph | Missing | ❌ |
 | 2.5 | Eastern, Central, Ashanti coordinators | Missing | ❌ |
@@ -128,14 +128,15 @@ Still open: S6 (no stock remains; photography still pending) · S8 / 9.5 (forms 
 
 ### Assets not available in the PDF
 - **Vector/SVG logo, and the separate mark-only, strapline-only and dark/light files.** 1.2 says these exist, but the document embeds only the full PNG lockup. The variants above are derived from it. **Ask the client for the originals.**
-- **Headshots: none in the PDF.** 2.2 says they are published on the OGA membership page.
+- **Headshots: none in the checklist PDF.** Supplied separately on 8 Oct 2026 in "Leadership images.pdf" (see Team below).
 - **Photography, video, testimonials:** none (8.1–8.7 wait on a photoshoot).
 - **Typography:** no brand font specified (8.8 refers only to logo colours). The site keeps Bricolage Grotesque + Inter.
 
 ### Team (14 roles, 13 people)
 - **With bios:** none. 2.3 is blacked out and the PDF contains no biographies. None were written.
 - **Without bios:** all 13.
-- **With headshots:** none. All use the initials fallback.
+- **With headshots (12/13):** everyone except Artem Bezukh, taken from "Leadership images.pdf" (8 Oct 2026). These are the embedded JPEGs extracted byte-for-byte: originals in `assets/source/people/<id>-original.jpg`, served copies in `public/people/<id>.jpg`. They're small (300×350, two at 272×350), so ask for higher-resolution originals.
+- **Without headshots:** Artem Bezukh (initials fallback).
 - Nana Yaw Baffour Frimpong appears in both Board and Management, which the PDF confirms.
 
 ### Partners
@@ -155,4 +156,4 @@ None beyond what was already transcribed in `approved-copy.md`. The PDF and DOCX
 5. **Board roles:** only the Chairman has a title. Other board members show as "Board member". Confirm whether any hold named offices.
 
 ### Still requiring client confirmation
-The logo source files and vector · headshots (permission to reuse the OGA set, plus a photo of Artem Bezukh) · consent from the 10 private partners · the GIZ colour logo · better Mr Pig and Frutina logos · benefits (3.3) · social accounts (1.7) · form destination (9.5) · legal pages (10.1, 10.2) · the Programmes decision (4.x).
+The logo source files and vector · a headshot of Artem Bezukh, plus higher-resolution originals of the other 12 · consent from the 10 private partners · the GIZ colour logo · better Mr Pig and Frutina logos · benefits (3.3) · social accounts (1.7) · form destination (9.5) · legal pages (10.1, 10.2) · the Programmes decision (4.x).

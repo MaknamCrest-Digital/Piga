@@ -23,11 +23,16 @@ export type SiteSettings = {
   phoneE164: string;
   whatsappE164?: string;
   email: string;
-  socials: { network: string; url: string }[];
+  socials: SocialLink[];
   logos?: BrandLogos;
   ctas: { join: Cta; partner: Cta; contact: Cta };
   launchBanner?: { enabled: boolean; text: string; href?: string };
 };
+
+export type SocialNetwork = "facebook" | "instagram" | "linkedin";
+
+/** 1.7. An empty `url` is a placeholder: hidden in production, shown as `pending` in dev or preview. */
+export type SocialLink = { network: SocialNetwork; url: string; pending?: boolean };
 
 export type HomePage = {
   hero: { eyebrow: string; title: string; highlight: string; lead: string };
@@ -37,6 +42,22 @@ export type HomePage = {
   mission: string;
   objectives: { title: string; body: string }[];
   featuredPeopleIds: string[];
+  /** Why PiGA exists (1.3): the tree-crop sectors that already have support, versus pineapple. */
+  gap: { title: string; highlight: string; supportedSectors: string[] };
+  /** The sister associations (1.5, Appendix A). `partnerId` pulls the logo from partners. */
+  family: { title: string; highlight: string; lead: string; associations: SisterAssociation[] };
+  /** Coverage and office (1.6, 1.9). Body text comes from AboutPage.coverage; contact from SiteSettings. */
+  reach: { title: string; highlight: string };
+};
+
+export type SisterAssociation = {
+  id: string;
+  name: string;
+  crop: string;
+  since?: string;
+  facts: string[];
+  partnerId?: string;
+  isSelf?: boolean;
 };
 
 export type AboutPage = {

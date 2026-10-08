@@ -22,6 +22,15 @@
   --color-gold: #ff9018;       /* logo fruit orange, the spark */
   --color-gold-soft: #ffe6c7;
 
+  /* Third-party brand colours: social icons only (footer) */
+  --color-facebook: #1877f2;
+  --color-linkedin: #0a66c2;
+  --color-instagram-yellow: #feda75;
+  --color-instagram-orange: #fa7e1e;
+  --color-instagram-pink: #d62976;
+  --color-instagram-purple: #962fbf;
+  --color-instagram-blue: #4f5bd5;
+
   --color-ink: #0e1f17;
   --color-muted: #5b6f64;
   --color-line: #dcebe2;
